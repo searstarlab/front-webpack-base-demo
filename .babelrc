@@ -1,5 +1,10 @@
 {
   "presets": ["react", "env"],
+  "ignore":[
+    "jquery.min.js",
+    "ol.js"
+  ],
+
   "env": {
     "development": {
       "plugins": [

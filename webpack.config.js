@@ -12,19 +12,14 @@ module.exports = {
     devtool: 'eval-source-map',
     // entry: __dirname + "/app/main.js",
     entry: {index: __dirname + "/app/main.js",//已多次提及的唯一入口文件
-        vendor: ['react', 'react-dom','jquery','ol']
+        vendor: ['react', 'react-dom','jquery','openlayers']
     },
     output: {
         path: __dirname + "/build",
         // filename: "[name].[hash].js",
         filename: "[name].js",
         libraryTarget : 'var'
-    }
-    // output: {
-    //     path: __dirname + "/public",
-    //     filename: "bundle.js"
-    // }
-    ,
+    },
     devServer: {
         contentBase: "./public",
         historyApiFallback: true,
@@ -35,8 +30,13 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.json', '.css', '.less'],
         alias: {
-            jquery: path.resolve(__dirname,'./app/libs/jquery.min.js')
+            jquery: path.resolve(__dirname,'./app/libs/jquery.min.js'),
+            openlayers: path.resolve(__dirname,'./app/libs/ol.js')
+            //openlayers: path.resolve(__dirname, '../node_modules/ol/dist/ol.js')
         },
+    },
+    externals: {
+        'react': 'window.React'
     },
     module: {
         rules: [{
@@ -47,10 +47,15 @@ module.exports = {
                 //     presets: [
                 //         "env", "react"
                 //     ]
+                // query: {compact: false}
 
                 // }
             },
-            exclude: /node_modules/
+            exclude:[
+                path.resolve(__dirname, "app/libs"),
+                path.resolve(__dirname, "node_modules")
+                ]
+            // exclude: /node_modules/
         },
             // {
             //     test: require.resolve(path.resolve(__dirname,'./app/libs/jquery.min.js')),
@@ -92,6 +97,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
+            ol:'openlayers'
         }),
         new HtmlWebpackPlugin({
             template: __dirname + "/app/index.tmpl.html"

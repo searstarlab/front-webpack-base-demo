@@ -15,7 +15,7 @@ module.exports = {
     devtool: 'eval-source-map',
     // entry: __dirname + "/app/main.js",
     entry: {index: __dirname + "/app/main.js",//已多次提及的唯一入口文件
-        vendor: ['react', 'react-dom','libs2']
+        vendor: ['react', 'react-dom','jquery','openlayers']
     },
 
     output: {
@@ -36,7 +36,8 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.json', '.css', '.less'],
         alias: {
-            libs2: path.join(rootPath, './app/libs/jquery.min.js'),
+            jquery: path.join(rootPath, './app/libs/jquery.min.js'),
+            openlayers: path.resolve(__dirname,'./app/libs/ol.js')
         },
     },
     module: {
@@ -98,8 +99,9 @@ module.exports = {
             names: ['vendor','manifest'],
         }),
         new webpack.ProvidePlugin({
-            $: "libs2",
-            jQuery: "libs2"
-        })
+            $: 'jquery',
+            jQuery: 'jquery',
+            ol:'openlayers'
+        }),
     ],
 };

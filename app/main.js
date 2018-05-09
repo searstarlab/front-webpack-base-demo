@@ -1,34 +1,33 @@
-// const greeter=require('./Greeter.js');
-// document.querySelector("#root").appendChild(greeter());
-//
-import React from 'react';
-import {render} from 'react-dom';
-import Greeter from "./Greeter";
-
-// import './main.css';
-import 'ol/ol.css';
-import Map from 'ol/map';
-import View from 'ol/view';
-import TileLayer from 'ol/layer/tile';
-import XYZSource from 'ol/source/xyz';
-// import './jquery.min.js'
-// const $=require('jQuery')
 const moment=require('moment')
-// render(<Greeter />, document.getElementById('root'))
 
 
-new Map({
-    target: 'map-container',
+const map = new ol.Map({
     layers: [
-        new TileLayer({
-            source: new XYZSource({
-                url: 'http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg'
-            })
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
         })
     ],
-    view: new View({
+    target: 'map',
+    controls: ol.control.defaults({
+        attributionOptions: {
+            collapsible: false
+        }
+    }),
+    view: new ol.View({
         center: [0, 0],
         zoom: 2
     })
 });
+
+document.getElementById('zoom-out').onclick = function() {
+    var view = map.getView();
+    var zoom = view.getZoom();
+    view.setZoom(zoom - 1);
+};
+
+document.getElementById('zoom-in').onclick = function() {
+    var view = map.getView();
+    var zoom = view.getZoom();
+    view.setZoom(zoom + 1);
+};
 $('body').append('<p>now is '+moment().format()+'</p>')
